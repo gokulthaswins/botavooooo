@@ -285,30 +285,28 @@ for part in split_arr_columns:
 ______________________________________________________________________
 7.Load an image file and do crop and flip  
 Operation using NumPy Indexing
-
-from PIL import Image
+#Experiment 7
 import numpy as np
+from PIL import Image
+import matplotlib.pyplot as plt
+image=Image.open(r"C:\Users\Tamilvanan\Pictures\Camera Roll\WIN_20240408_14_56_28_Pro.jpg")
+img_array=np.array(image)
+plt.imshow(img_array)
+plt.title("Original Image:")
 
-# Load the image
-image = Image.open("D://31165195ad7305447dbbe279951736b4.jpg")
+cropped_img_arr=img_array[50:200,100:300]
+plt.subplot(1,3,2)
+plt.imshow(cropped_img_arr)
 
-# Convert the image to a NumPy array
-image_array = np.array(image)
+flipped_image_array = np.flipud(np.fliplr(image_array)) # Flip both vertically
+and horizontally
+# Display the flipped image
+plt.subplot(1, 3, 3)
+plt.imshow(flipped_image_array)
+plt.title("Flipped Image")
+plt.show()
 
-# Crop the image (example: crop 100 pixels from each side)
-# Syntax: array[start_row:end_row, start_column:end_column]
-cropped_image = image_array[100:-100, 100:-100]
-
-# Flip the image horizontally (axis=1 for left-right flip)
-flipped_image = np.flip(cropped_image, axis=1)
-
-# Convert the NumPy array back to an image
-result_image = Image.fromarray(flipped_image)
-
-# Save or display the resulting image
-result_image.show()  # To display the image
-result_image.save("output_image.jpg")  # To save the image
-_______________________________________________________________________________________________
+__________________________________
 8.Creating Pandas Series and DataFrame  
 from Various Inputs
 
@@ -351,51 +349,31 @@ ________________________________________________________________________________
 9.Import any CSV file to Pandas Data Frame and 
 perform the given operations 
 
-import pandas as pd 
+#Experiment 9
+import pandas as pd
+dk=pd.read_csv('Book1.csv')
+print(dk.head(10))
+print(dk.tail(5))
+print(dk.shape)
 
-# Load the CSV file into a DataFrame
-# Assuming 'sample.csv' is the file to be loaded
-df = pd.read_csv('D:\python\example.csv') 
+dk.columns
+dk.index
+sel_rows=dk[dk['A']>10]
+print(sel_rows)
+dk_drop=dk.dropna(subset=['B'])
+rank=dk['D'].rank()
+print(rank)
+sort=dk.sort_values(by='D',ascending=False)
+print(sort)
+mean=dk['A'].mean()
+print(mean)
+standard_deviation=dk['A'].std()
+print(standard_deviation)
 
-# (a) Visualize the first and last 10 records
-print("First 10 records:\n", df.head(10)) 
-print("\nLast 10 records:\n", df.tail(10)) 
-
-# (b) Get the shape, index, and column details
-print("\nShape of the DataFrame:", df.shape) 
-print("\nIndex of the DataFrame:", df.index) 
-print("\nColumns of the DataFrame:", df.columns) 
-
-# (c) Select/Delete records based on conditions
-# Selecting records where 'Age' column is greater than 25
-selected_records = df[df['Age'] > 25] 
-print("\nRecords where Age > 25:\n", selected_records) 
-
-# Deleting the 'City' column
-df_deleted_column = df.drop(columns=['City']) 
-print("\nDataFrame after deleting 'City' column:\n", df_deleted_column) 
-
-# (d) Perform ranking and sorting operations
-# Ranking based on the 'Age' column
-df['Age Rank'] = df['Age'].rank(ascending=False) 
-print("\nDataFrame with 'Age' ranked:\n", df[['Name', 'Age', 'Age Rank']]) 
-
-# Sorting by 'Age' column in ascending order
-sorted_df = df.sort_values(by='Age', ascending=True) 
-print("\nDataFrame sorted by 'Age':\n", sorted_df) 
-
-# (e) Perform statistical operations on a given column
-print("\nMean of 'Age':", df['Age'].mean()) 
-print("Median of 'Salary':", df['Salary'].median()) 
-print("Standard Deviation of 'Salary':", df['Salary'].std()) 
-
-# (f) Find the count and uniqueness of the given categorical values
-print("\nCount of unique values in 'City':\n", df['City'].value_counts()) 
-print("\nUnique values in 'City':", df['City'].unique()) 
-
-# (g) Rename single/multiple columns
-df_renamed = df.rename(columns={'Name': 'Employee Name', 'Age': 'Employee Age'}) 
-print("\nDataFrame after renaming columns:\n", df_renamed) 
+count=dk['C'].value_counts()
+unique=dk['C'].nunique()
+print(count)
+print(unique)
 ______________________________________________________________________________________________
 10.Import any CSV file to Pandas Data Frame and 
 perform the given operations
